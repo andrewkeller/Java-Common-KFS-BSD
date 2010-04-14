@@ -10,6 +10,7 @@ JUNIT_CLASSPATH=lib/junit.jar
 
 #### Class List ####
 MAIN_SRC=\
+         src/com/kfs/bsd/common/util/LinearArgDesequencer.java\
 #### Class List ####
 TEST_SRC=\
 #### Class List ####
