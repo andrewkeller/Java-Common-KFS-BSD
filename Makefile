@@ -13,6 +13,7 @@ MAIN_SRC=\
          src/com/kfs/bsd/common/util/LinearArgDesequencer.java\
 #### Class List ####
 TEST_SRC=\
+         src/com/kfs/bsd/common/util/junit/TestLinearArgDesequencer.java\
 #### Class List ####
 
 
