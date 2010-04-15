@@ -122,7 +122,7 @@ public class LinearArgDesequencer {
 		
 		// A convenience function that returns the verbosity described by the arguments.
 		
-		return argSet.makeGet( kArgKeyHelp ).parcels.size();
+		return argSet.makeGet( kArgKeyVerbose ).parcels.size();
 	}
 	
 	// The primary desequencing function
