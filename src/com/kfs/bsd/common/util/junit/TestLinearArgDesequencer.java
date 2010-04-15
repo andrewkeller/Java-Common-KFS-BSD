@@ -137,6 +137,46 @@ public class TestLinearArgDesequencer extends TestCase {
 		verifyBasics( args, false, 2, false, 0 );
 	}
 	
+	public void testNoSubclassInvalidArgs1() {
+		
+		String [] cmdl_args = { "--foo" };
+		LinearArgDesequencer args = new LinearArgDesequencer( cmdl_args );
+		
+		verifyBasics( args, false, 0, true, args.kErrorCodeUnknownArgument );
+	}
+	
+	public void testNoSubclassInvalidArgs2() {
+		
+		String [] cmdl_args = { "--foo", "--bar" };
+		LinearArgDesequencer args = new LinearArgDesequencer( cmdl_args );
+		
+		verifyBasics( args, false, 0, true, args.kErrorCodeUnknownArgument );
+	}
+	
+	public void testNoSubclassInvalidArgs3() {
+		
+		String [] cmdl_args = { "-a" };
+		LinearArgDesequencer args = new LinearArgDesequencer( cmdl_args );
+		
+		verifyBasics( args, false, 0, true, args.kErrorCodeUnknownArgument );
+	}
+	
+	public void testNoSubclassInvalidArgs4() {
+		
+		String [] cmdl_args = { "-ab" };
+		LinearArgDesequencer args = new LinearArgDesequencer( cmdl_args );
+		
+		verifyBasics( args, false, 0, true, args.kErrorCodeUnknownArgument );
+	}
+	
+	public void testNoSubclassInvalidArgs5() {
+		
+		String [] cmdl_args = { "-ab", "--foo" };
+		LinearArgDesequencer args = new LinearArgDesequencer( cmdl_args );
+		
+		verifyBasics( args, false, 0, true, args.kErrorCodeUnknownArgument );
+	}
+	
 	// Test cases on LADsEmpty (a subclass of LinearArgDesequencer)
 	
 	public void testLADsEmptyNoArgs() {
