@@ -36,6 +36,7 @@ check: lib/junit.jar $(TEST_CLASSES) $(MAIN_CLASSES)
 	java -classpath bin:$(JUNIT_CLASSPATH) org.junit.runner.JUnitCore $(_TEST_CLASSES)
 
 lib/junit.jar:
+	@if [ ! -e lib/junit/build.xml ]; then echo "Fatal: lib/junit/build.xml not found.  Did you checkout the JUnit submodule?"; exit 1; fi
 	cd lib/junit && ant
 	cp lib/junit/junit$(JUNIT_VERSION)/junit-$(JUNIT_VERSION).jar lib/junit.jar
 	cd lib/junit && ant clean && git clean -fd
