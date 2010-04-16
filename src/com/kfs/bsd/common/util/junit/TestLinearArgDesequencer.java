@@ -97,6 +97,19 @@ public class TestLinearArgDesequencer extends TestCase {
 			argSet.addArgumentInfo( "arg2", '2', 0, false, "Argument 2" );
 			argSet.addArgumentInfo( "arg3", '3', 0, false, "Argument 3" );
 		}
+		
+		public void verifyOutcome( int a1, int a2, int a3, boolean error, int errorCode ) {
+			
+			// Verify the generic aspects (error and error code):
+			
+			verifyOutcome( error, errorCode );
+			
+			// Verify that the given arguments were found correctly.
+			
+			assertEquals( "LinearArgDesequencer did not find the '-1' flag.", a1, argSet.makeGet( "arg1" ).parcels.size() );
+			assertEquals( "LinearArgDesequencer did not find the '-2' flag.", a2, argSet.makeGet( "arg2" ).parcels.size() );
+			assertEquals( "LinearArgDesequencer did not find the '-3' flag.", a3, argSet.makeGet( "arg3" ).parcels.size() );
+		}
 	}
 	
 	protected class LADsSwitches extends LADsEmpty {
@@ -466,5 +479,156 @@ public class TestLinearArgDesequencer extends TestCase {
 		LADsEmpty args = new LADsEmpty( cmdl_args );
 		
 		args.verifyOutcome( true, args.kErrorCodeUnknownArgument );
+	}
+	
+	// Test cases on LADsFlags (a subclass of LinearArgDesequencer)
+	
+	public void testLADsFlagsNoArgs() {
+		
+		LADsFlags args = new LADsFlags();
+		
+		args.verifyOutcome( 0, 0, 0, false, 0 );
+	}
+	
+	public void testLADsFlags_1() {
+		
+		String [] cmdl_args = { "-1" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 1, 0, 0, false, 0 );
+	}
+	
+	public void testLADsFlags_2() {
+		
+		String [] cmdl_args = { "-2" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 0, 1, 0, false, 0 );
+	}
+	
+	public void testLADsFlags_3() {
+		
+		String [] cmdl_args = { "-3" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 0, 0, 1, false, 0 );
+	}
+	
+	public void testLADsFlags_12() {
+		
+		String [] cmdl_args = { "-12" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 1, 1, 0, false, 0 );
+	}
+	
+	public void testLADsFlags_1_2() {
+		
+		String [] cmdl_args = { "-1", "-2" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 1, 1, 0, false, 0 );
+	}
+	
+	public void testLADsFlags_23() {
+		
+		String [] cmdl_args = { "-23" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 0, 1, 1, false, 0 );
+	}
+	
+	public void testLADsFlags_2_3() {
+		
+		String [] cmdl_args = { "-2", "-3" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 0, 1, 1, false, 0 );
+	}
+	
+	public void testLADsFlags_13() {
+		
+		String [] cmdl_args = { "-13" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 1, 0, 1, false, 0 );
+	}
+	
+	public void testLADsFlags_1_3() {
+		
+		String [] cmdl_args = { "-1", "-3" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 1, 0, 1, false, 0 );
+	}
+	
+	public void testLADsFlags_123() {
+		
+		String [] cmdl_args = { "-123" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 1, 1, 1, false, 0 );
+	}
+	
+	public void testLADsFlags_1_23() {
+		
+		String [] cmdl_args = { "-1", "-23" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 1, 1, 1, false, 0 );
+	}
+	
+	public void testLADsFlags_12_3() {
+		
+		String [] cmdl_args = { "-12", "-3" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 1, 1, 1, false, 0 );
+	}
+	
+	public void testLADsFlags_1_2_3() {
+		
+		String [] cmdl_args = { "-1", "-2", "-3" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 1, 1, 1, false, 0 );
+	}
+	
+	public void testLADsFlags_Invalid_14() {
+		
+		String [] cmdl_args = { "-14" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 1, 0, 0, true, args.kErrorCodeUnknownArgument );
+	}
+	
+	public void testLADsFlags_Invalid_1_4() {
+		
+		String [] cmdl_args = { "-1", "4" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		args.verifyOutcome( 1, 0, 0, true, args.kErrorCodeUnknownArgument );
+	}
+	
+	public void testLADsFlags_Invalid_41() {
+		
+		String [] cmdl_args = { "-41" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		// Since parsing stops when an invalid argument
+		// is found, the '-1' won't be found.
+		
+		args.verifyOutcome( 0, 0, 0, true, args.kErrorCodeUnknownArgument );
+	}
+	
+	public void testLADsFlags_Invalid_4_2() {
+		
+		String [] cmdl_args = { "-4", "-2" };
+		LADsFlags args = new LADsFlags( cmdl_args );
+		
+		// Since parsing stops when an invalid argument
+		// is found, the '-2' won't be found.
+		
+		args.verifyOutcome( 0, 0, 0, true, args.kErrorCodeUnknownArgument );
 	}
 }
