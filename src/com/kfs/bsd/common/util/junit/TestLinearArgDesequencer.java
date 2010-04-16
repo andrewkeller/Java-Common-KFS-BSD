@@ -810,12 +810,36 @@ public class TestLinearArgDesequencer extends TestCase {
 		args.verifyOutcome( 1, 2, false, 0 );
 	}
 	
+	public void testLADsParcels_1x1_2x3() {
+		
+		String [] cmdl_args = { "-1", "foo", "-2", "foo", "bar", "fish" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		args.verifyOutcome( 1, 2, true, args.kErrorCodeUnknownArgument );
+	}
+	
+	public void testLADsParcels_12x2() {
+		
+		String [] cmdl_args = { "-12", "foo", "bar" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		args.verifyOutcome( 1, 1, true, args.kErrorCodeMissingArgument );
+	}
+	
 	public void testLADsParcels_12x3() {
 		
 		String [] cmdl_args = { "-12", "foo", "bar", "fish" };
 		LADsParcels args = new LADsParcels( cmdl_args );
 		
 		args.verifyOutcome( 1, 2, false, 0 );
+	}
+	
+	public void testLADsParcels_12x4() {
+		
+		String [] cmdl_args = { "-12", "foo", "bar", "fish", "cat" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		args.verifyOutcome( 1, 2, true, args.kErrorCodeUnknownArgument );
 	}
 	
 	public void testLADsParcels_21x3() {
