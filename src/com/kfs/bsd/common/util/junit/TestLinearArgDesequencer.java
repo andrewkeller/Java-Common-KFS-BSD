@@ -191,7 +191,23 @@ public class TestLinearArgDesequencer extends TestCase {
 			
 			argSet.addArgumentInfo( "arg1", '1', 1, false, "Argument with 1 parcel" );
 			argSet.addArgumentInfo( "arg2", '2', 2, false, "Argument with 2 parcels" );
-			argSet.addArgumentInfo( "arg3", '3', 3, false, "Argument with 3 parcels" );
+		}
+		
+		public void verifyOutcome( int a1, int a2, boolean error, int errorCode ) {
+			
+			// Verify the generic aspects (error and error code):
+			
+			verifyOutcome( error, errorCode );
+			
+			// Verify that the given arguments were found correctly.
+			
+			String msg;
+			
+			msg = "LinearArgDesequencer did not find exactly "+a1+" parcel"+(a1==1?"":"s")+" for the argument '-1'.";
+			assertEquals( msg, a1, argSet.makeGet( "arg1" ).getRelevantParcels().length );
+			
+			msg = "LinearArgDesequencer did not find exactly "+a2+" parcel"+(a2==1?"":"s")+" for the argument '-2'.";
+			assertEquals( msg, a2, argSet.makeGet( "arg2" ).getRelevantParcels().length );
 		}
 	}
 	
@@ -727,5 +743,116 @@ public class TestLinearArgDesequencer extends TestCase {
 		// is found, the '--arg2' won't be found.
 		
 		args.verifyOutcome( 0, 0, 0, true, args.kErrorCodeUnknownArgument );
+	}
+	
+	// Test cases on LADsParcels (a subclass of LinearArgDesequencer)
+	
+	public void testLADsParcelsNoArgs() {
+		
+		LADsParcels args = new LADsParcels();
+		
+		args.verifyOutcome( 0, 0, false, 0 );
+	}
+	
+	public void testLADsParcels_1x0() {
+		
+		String [] cmdl_args = { "-1" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		args.verifyOutcome( 0, 0, true, args.kErrorCodeMissingArgument );
+	}
+	
+	public void testLADsParcels_1x1() {
+		
+		String [] cmdl_args = { "-1", "foo" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		args.verifyOutcome( 1, 0, false, 0 );
+	}
+	
+	public void testLADsParcels_1x2() {
+		
+		String [] cmdl_args = { "-1", "foo", "bar" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		args.verifyOutcome( 1, 0, true, args.kErrorCodeUnknownArgument );
+	}
+	
+	public void testLADsParcels_2x1() {
+		
+		String [] cmdl_args = { "-2", "foo" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		args.verifyOutcome( 0, 1, true, args.kErrorCodeMissingArgument );
+	}
+	
+	public void testLADsParcels_2x2() {
+		
+		String [] cmdl_args = { "-2", "foo", "bar" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		args.verifyOutcome( 0, 2, false, 0 );
+	}
+	
+	public void testLADsParcels_2x3() {
+		
+		String [] cmdl_args = { "-2", "foo", "bar", "fish" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		args.verifyOutcome( 0, 2, true, args.kErrorCodeUnknownArgument );
+	}
+	
+	public void testLADsParcels_1x1_2x2() {
+		
+		String [] cmdl_args = { "-1", "foo", "-2", "foo", "bar" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		args.verifyOutcome( 1, 2, false, 0 );
+	}
+	
+	public void testLADsParcels_12x3() {
+		
+		String [] cmdl_args = { "-12", "foo", "bar", "fish" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		args.verifyOutcome( 1, 2, false, 0 );
+	}
+	
+	public void testLADsParcels_21x3() {
+		
+		String [] cmdl_args = { "-21", "foo", "bar", "fish" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		args.verifyOutcome( 1, 2, false, 0 );
+	}
+	
+	public void testLADsParcels_2x1_1x2() {
+		
+		String [] cmdl_args = { "-2", "foo", "-1", "bar", "fish" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		args.verifyOutcome( 1, 2, false, 0 );
+	}
+	
+	public void testLADsParcels_11x2() {
+		
+		String [] cmdl_args = { "-11", "foo", "bar" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		// Argument '-1' is NOT an array, so any
+		// extra values override existing values.
+		
+		args.verifyOutcome( 1, 0, false, 0 );
+	}
+	
+	public void testLADsParcels_22x4() {
+		
+		String [] cmdl_args = { "-22", "foo", "bar", "fish", "cat" };
+		LADsParcels args = new LADsParcels( cmdl_args );
+		
+		// Argument '-2' is NOT an array, so any
+		// extra values override existing values.
+		
+		args.verifyOutcome( 0, 2, false, 0 );
 	}
 }
