@@ -46,9 +46,25 @@ public class TestLinearArgDesequencer extends TestCase {
 			// super.populateArgSet(), which would add
 			// the default arguments, help and verbose.
 		}
+		
+		public void verifyOutcome( boolean error, int errorCode ) {
+			
+			// Make sure the error flag is correct.
+			
+			if( error ) {
+				
+				assertTrue( "The given arguments should have caused an error.", sequenceError() );
+				assertEquals( "The error code should have been "+errorCode+".", errorCode, sequenceErrorCode() );
+			}
+			else {
+				
+				assertFalse( "The given arguments should not have caused an error.", sequenceError() );
+				assertEquals( "'No Error' should imply that the error code is zero.", 0, sequenceErrorCode() );
+			}
+		}
 	}
 	
-	protected class LADsFlags extends LinearArgDesequencer {
+	protected class LADsFlags extends LADsEmpty {
 		
 		// This is a subclass of LinearArgDesequencer that
 		// has arguments applicable for testing flags.
@@ -83,7 +99,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		}
 	}
 	
-	protected class LADsSwitches extends LinearArgDesequencer {
+	protected class LADsSwitches extends LADsEmpty {
 		
 		// This is a subclass of LinearArgDesequencer that
 		// has arguments applicable for testing switches.
@@ -118,7 +134,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		}
 	}
 	
-	protected class LADsParcels extends LinearArgDesequencer {
+	protected class LADsParcels extends LADsEmpty {
 		
 		// This is a subclass of LinearArgDesequencer that has arguments
 		// applicable for testing arguments with multiple parcels.
@@ -153,7 +169,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		}
 	}
 	
-	protected class LADsArrays extends LinearArgDesequencer {
+	protected class LADsArrays extends LADsEmpty {
 		
 		// This is a subclass of LinearArgDesequencer that
 		// has arguments applicable for testing arrays.
@@ -188,7 +204,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		}
 	}
 	
-	protected class LADsUnbounded extends LinearArgDesequencer {
+	protected class LADsUnbounded extends LADsEmpty {
 		
 		// This is a subclass of LinearArgDesequencer that has
 		// arguments applicable for testing unbounded arguments.
@@ -229,7 +245,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		}
 	}
 	
-	protected class LADsDuplicates extends LinearArgDesequencer {
+	protected class LADsDuplicates extends LADsEmpty {
 		
 		// This is a subclass of LinearArgDesequencer that
 		// has arguments applicable for testing what happens
@@ -433,7 +449,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		LADsEmpty args = new LADsEmpty();
 		
-		verifyBasics( args, false, 0, false, 0 );
+		args.verifyOutcome( false, 0 );
 	}
 	
 	public void testLADsEmptyInvalidArgs1() {
@@ -441,7 +457,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		String [] cmdl_args = { "--help" };
 		LADsEmpty args = new LADsEmpty( cmdl_args );
 		
-		verifyBasics( args, false, 0, true, args.kErrorCodeUnknownArgument );
+		args.verifyOutcome( true, args.kErrorCodeUnknownArgument );
 	}
 	
 	public void testLADsEmptyInvalidArgs2() {
@@ -449,6 +465,6 @@ public class TestLinearArgDesequencer extends TestCase {
 		String [] cmdl_args = { "--verbose", "--verbose" };
 		LADsEmpty args = new LADsEmpty( cmdl_args );
 		
-		verifyBasics( args, false, 0, true, args.kErrorCodeUnknownArgument );
+		args.verifyOutcome( true, args.kErrorCodeUnknownArgument );
 	}
 }
