@@ -383,7 +383,7 @@ public class LinearArgDesequencer {
 				
 				for( String s : orig )
 					if( s != null )
-						result[ ++row ] = s;
+						result[ row++ ] = s;
 				
 				return result;
 			}
