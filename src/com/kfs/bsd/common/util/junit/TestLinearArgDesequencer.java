@@ -267,6 +267,37 @@ public class TestLinearArgDesequencer extends TestCase {
 		}
 	}
 	
+	// Common testing code
+	
+	public void verifyBasics( LinearArgDesequencer lad, boolean help, int verbosity, boolean error, int errorCode ) {
+		
+		// Make sure the error flag is correct.
+		
+		if( error ) {
+			
+			assertTrue( "The given arguments should have caused an error.", lad.sequenceError() );
+			assertEquals( "The error code should have been "+errorCode+".", errorCode, lad.sequenceErrorCode() );
+		}
+		else {
+			
+			assertFalse( "The given arguments should not have caused an error.", lad.sequenceError() );
+			assertEquals( "'No Error' should imply that the error code is zero.", 0, lad.sequenceErrorCode() );
+		}
+		
+		// Make sure the help flag is correct.
+		
+		if( help )
+			assertTrue( "LinearArgDesequencer did not find the help flag.", lad.foundHelpFlag() );
+		
+		else
+			assertFalse( "LinearArgDesequencer found a help flag when one was not passed.", lad.foundHelpFlag() );
+		
+		// Make sure the verbosity level is correct.
+		
+		String msg = "LinearArgDesequencer did not find exactly "+verbosity+" verbose flag"+(verbosity==1?"":"s")+".";
+		assertEquals( msg, verbosity, lad.verbosity() );
+	}
+	
 	// Test cases on LinearArgDesequencer directly
 	
 	public void testNoSubclassNoArgs() {
@@ -419,36 +450,5 @@ public class TestLinearArgDesequencer extends TestCase {
 		LADsEmpty args = new LADsEmpty( cmdl_args );
 		
 		verifyBasics( args, false, 0, true, args.kErrorCodeUnknownArgument );
-	}
-	
-	// Common testing code
-	
-	public void verifyBasics( LinearArgDesequencer lad, boolean help, int verbosity, boolean error, int errorCode ) {
-		
-		// Make sure the error flag is correct.
-		
-		if( error ) {
-			
-			assertTrue( "The given arguments should have caused an error.", lad.sequenceError() );
-			assertEquals( "The error code should have been "+errorCode+".", errorCode, lad.sequenceErrorCode() );
-		}
-		else {
-			
-			assertFalse( "The given arguments should not have caused an error.", lad.sequenceError() );
-			assertEquals( "'No Error' should imply that the error code is zero.", 0, lad.sequenceErrorCode() );
-		}
-		
-		// Make sure the help flag is correct.
-		
-		if( help )
-			assertTrue( "LinearArgDesequencer did not find the help flag.", lad.foundHelpFlag() );
-		
-		else
-			assertFalse( "LinearArgDesequencer found a help flag when one was not passed.", lad.foundHelpFlag() );
-		
-		// Make sure the verbosity level is correct.
-		
-		String msg = "LinearArgDesequencer did not find exactly "+verbosity+" verbose flag"+(verbosity==1?"":"s")+".";
-		assertEquals( msg, verbosity, lad.verbosity() );
 	}
 }
