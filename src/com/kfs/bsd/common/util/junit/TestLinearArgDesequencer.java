@@ -48,6 +48,225 @@ public class TestLinearArgDesequencer extends TestCase {
 		}
 	}
 	
+	protected class LADsFlags extends LinearArgDesequencer {
+		
+		// This is a subclass of LinearArgDesequencer that
+		// has arguments applicable for testing flags.
+		
+		public LADsFlags() {
+			
+			// Java requires that this be here.
+			
+			// Forward the request to super.
+			
+			super();
+		}
+		
+		public LADsFlags( String [] args ) {
+			
+			// Java requires that this be here.
+			
+			// Forward the request to super.
+			
+			super( args );
+		}
+		
+		protected void populateArgSet() {
+			
+			// For simplicity, do not add the default argument set.
+			
+			// Add some more of our own arguments:
+			
+			argSet.addArgumentInfo( "arg1", '1', 0, false, "Argument 1" );
+			argSet.addArgumentInfo( "arg2", '2', 0, false, "Argument 2" );
+			argSet.addArgumentInfo( "arg3", '3', 0, false, "Argument 3" );
+		}
+	}
+	
+	protected class LADsSwitches extends LinearArgDesequencer {
+		
+		// This is a subclass of LinearArgDesequencer that
+		// has arguments applicable for testing switches.
+		
+		public LADsSwitches() {
+			
+			// Java requires that this be here.
+			
+			// Forward the request to super.
+			
+			super();
+		}
+		
+		public LADsSwitches( String [] args ) {
+			
+			// Java requires that this be here.
+			
+			// Forward the request to super.
+			
+			super( args );
+		}
+		
+		protected void populateArgSet() {
+			
+			// For simplicity, do not add the default argument set.
+			
+			// Add some more of our own arguments:
+			
+			argSet.addArgumentInfo( "arg1", "arg1", 0, false, "Argument 1" );
+			argSet.addArgumentInfo( "arg2", "arg2", 0, false, "Argument 2" );
+			argSet.addArgumentInfo( "arg3", "arg3", 0, false, "Argument 3" );
+		}
+	}
+	
+	protected class LADsParcels extends LinearArgDesequencer {
+		
+		// This is a subclass of LinearArgDesequencer that has arguments
+		// applicable for testing arguments with multiple parcels.
+		
+		public LADsParcels() {
+			
+			// Java requires that this be here.
+			
+			// Forward the request to super.
+			
+			super();
+		}
+		
+		public LADsParcels( String [] args ) {
+			
+			// Java requires that this be here.
+			
+			// Forward the request to super.
+			
+			super( args );
+		}
+		
+		protected void populateArgSet() {
+			
+			// For simplicity, do not add the default argument set.
+			
+			// Add some more of our own arguments:
+			
+			argSet.addArgumentInfo( "arg1", '1', 1, false, "Argument with 1 parcel" );
+			argSet.addArgumentInfo( "arg2", '2', 2, false, "Argument with 2 parcels" );
+			argSet.addArgumentInfo( "arg3", '3', 3, false, "Argument with 3 parcels" );
+		}
+	}
+	
+	protected class LADsArrays extends LinearArgDesequencer {
+		
+		// This is a subclass of LinearArgDesequencer that
+		// has arguments applicable for testing arrays.
+		
+		public LADsArrays() {
+			
+			// Java requires that this be here.
+			
+			// Forward the request to super.
+			
+			super();
+		}
+		
+		public LADsArrays( String [] args ) {
+			
+			// Java requires that this be here.
+			
+			// Forward the request to super.
+			
+			super( args );
+		}
+		
+		protected void populateArgSet() {
+			
+			// For simplicity, do not add the default argument set.
+			
+			// Add some more of our own arguments:
+			
+			argSet.addArgumentInfo( "arg1", '1', 1, true, "Array argument with 1 parcel" );
+			argSet.addArgumentInfo( "arg2", '2', 2, true, "Array argument with 2 parcels" );
+			argSet.addArgumentInfo( "arg3", '3', 3, true, "Array argument with 3 parcels" );
+		}
+	}
+	
+	protected class LADsUnbounded extends LinearArgDesequencer {
+		
+		// This is a subclass of LinearArgDesequencer that has
+		// arguments applicable for testing unbounded arguments.
+		
+		public LADsUnbounded() {
+			
+			// Java requires that this be here.
+			
+			// Forward the request to super.
+			
+			super();
+		}
+		
+		public LADsUnbounded( String [] args ) {
+			
+			// Java requires that this be here.
+			
+			// Forward the request to super.
+			
+			super( args );
+		}
+		
+		protected void populateArgSet() {
+			
+			// For simplicity, do not add the default argument set.
+			
+			// Add some more of our own arguments:
+			
+			argSet.addArgumentInfo( "arg0", '0', "argZero", 0, false, true, "Argument with 0 parcels (unbounded)" );
+			argSet.addArgumentInfo( "arg1", '1', "argOne", 1, false, true, "Argument with 1 parcel (unbounded)" );
+			argSet.addArgumentInfo( "arg2", '2', "argTwo", 2, false, true, "Argument with 2 parcels (unbounded)" );
+			argSet.addArgumentInfo( "arg3", '3', "argThree", 3, false, true, "Argument with 3 parcels (unbounded)" );
+			
+			argSet.addArgumentInfo( "ary0", 'p', "arrayZero", 0, true, true, "Array argument with 0 parcel (unbounded)" );
+			argSet.addArgumentInfo( "ary1", 'q', "arrayOne", 1, true, true, "Array argument with 1 parcel (unbounded)" );
+			argSet.addArgumentInfo( "ary2", 'w', "arrayTwo", 2, true, true, "Array argument with 2 parcels (unbounded)" );
+			argSet.addArgumentInfo( "ary3", 'e', "arrayThree", 3, true, true, "Array argument with 3 parcels (unbounded)" );
+		}
+	}
+	
+	protected class LADsDuplicates extends LinearArgDesequencer {
+		
+		// This is a subclass of LinearArgDesequencer that
+		// has arguments applicable for testing what happens
+		// when duplicate argument definitions are defined.
+		
+		public LADsDuplicates() {
+			
+			// Java requires that this be here.
+			
+			// Forward the request to super.
+			
+			super();
+		}
+		
+		public LADsDuplicates( String [] args ) {
+			
+			// Java requires that this be here.
+			
+			// Forward the request to super.
+			
+			super( args );
+		}
+		
+		protected void populateArgSet() {
+			
+			// For simplicity, do not add the default argument set.
+			
+			// Add some more of our own arguments:
+			
+			argSet.addArgumentInfo( "debug", 'd', 0, false, "Debug Mode" );
+			argSet.addArgumentInfo( "debug", 'd', 1, true, "Disaster Mode" );
+			
+			argSet.addArgumentInfo( "bd", 'b', 1, false, "Bird Dog Mode" );
+			argSet.addArgumentInfo( "bd", 's', "yummy", 3, true, true, "Mongolian Mode" );
+		}
+	}
+	
 	// Test cases on LinearArgDesequencer directly
 	
 	public void testNoSubclassNoArgs() {
