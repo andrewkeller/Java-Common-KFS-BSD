@@ -145,6 +145,19 @@ public class TestLinearArgDesequencer extends TestCase {
 			argSet.addArgumentInfo( "arg2", "arg2", 0, false, "Argument 2" );
 			argSet.addArgumentInfo( "arg3", "arg3", 0, false, "Argument 3" );
 		}
+		
+		public void verifyOutcome( int a1, int a2, int a3, boolean error, int errorCode ) {
+			
+			// Verify the generic aspects (error and error code):
+			
+			verifyOutcome( error, errorCode );
+			
+			// Verify that the given arguments were found correctly.
+			
+			assertEquals( "LinearArgDesequencer did not find the '--arg1' switch.", a1, argSet.makeGet( "arg1" ).parcels.size() );
+			assertEquals( "LinearArgDesequencer did not find the '--arg2' switch.", a2, argSet.makeGet( "arg2" ).parcels.size() );
+			assertEquals( "LinearArgDesequencer did not find the '--arg3' switch.", a3, argSet.makeGet( "arg3" ).parcels.size() );
+		}
 	}
 	
 	protected class LADsParcels extends LADsEmpty {
@@ -628,6 +641,90 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		// Since parsing stops when an invalid argument
 		// is found, the '-2' won't be found.
+		
+		args.verifyOutcome( 0, 0, 0, true, args.kErrorCodeUnknownArgument );
+	}
+	
+	// Test cases on LADsSwitches (a subclass of LinearArgDesequencer)
+	
+	public void testLADsSwitchesNoArgs() {
+		
+		LADsSwitches args = new LADsSwitches();
+		
+		args.verifyOutcome( 0, 0, 0, false, 0 );
+	}
+	
+	public void testLADsSwitches_1() {
+		
+		String [] cmdl_args = { "--arg1" };
+		LADsSwitches args = new LADsSwitches( cmdl_args );
+		
+		args.verifyOutcome( 1, 0, 0, false, 0 );
+	}
+	
+	public void testLADsSwitches_2() {
+		
+		String [] cmdl_args = { "--arg2" };
+		LADsSwitches args = new LADsSwitches( cmdl_args );
+		
+		args.verifyOutcome( 0, 1, 0, false, 0 );
+	}
+	
+	public void testLADsSwitches_3() {
+		
+		String [] cmdl_args = { "--arg3" };
+		LADsSwitches args = new LADsSwitches( cmdl_args );
+		
+		args.verifyOutcome( 0, 0, 1, false, 0 );
+	}
+	
+	public void testLADsSwitches_1_2() {
+		
+		String [] cmdl_args = { "--arg1", "--arg2" };
+		LADsSwitches args = new LADsSwitches( cmdl_args );
+		
+		args.verifyOutcome( 1, 1, 0, false, 0 );
+	}
+	
+	public void testLADsSwitches_2_3() {
+		
+		String [] cmdl_args = { "--arg2", "--arg3" };
+		LADsSwitches args = new LADsSwitches( cmdl_args );
+		
+		args.verifyOutcome( 0, 1, 1, false, 0 );
+	}
+	
+	public void testLADsSwitches_1_3() {
+		
+		String [] cmdl_args = { "--arg1", "--arg3" };
+		LADsSwitches args = new LADsSwitches( cmdl_args );
+		
+		args.verifyOutcome( 1, 0, 1, false, 0 );
+	}
+	
+	public void testLADsSwitches_1_2_3() {
+		
+		String [] cmdl_args = { "--arg1", "--arg2", "--arg3" };
+		LADsSwitches args = new LADsSwitches( cmdl_args );
+		
+		args.verifyOutcome( 1, 1, 1, false, 0 );
+	}
+	
+	public void testLADsSwitches_Invalid_1_4() {
+		
+		String [] cmdl_args = { "--arg1", "--arg4" };
+		LADsSwitches args = new LADsSwitches( cmdl_args );
+		
+		args.verifyOutcome( 1, 0, 0, true, args.kErrorCodeUnknownArgument );
+	}
+	
+	public void testLADsSwitches_Invalid_4_2() {
+		
+		String [] cmdl_args = { "--arg4", "--arg2" };
+		LADsSwitches args = new LADsSwitches( cmdl_args );
+		
+		// Since parsing stops when an invalid argument
+		// is found, the '--arg2' won't be found.
 		
 		args.verifyOutcome( 0, 0, 0, true, args.kErrorCodeUnknownArgument );
 	}
