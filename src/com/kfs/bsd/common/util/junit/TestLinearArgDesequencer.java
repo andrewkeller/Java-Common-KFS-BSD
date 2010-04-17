@@ -209,6 +209,15 @@ public class TestLinearArgDesequencer extends TestCase {
 			msg = "LinearArgDesequencer did not find exactly "+a2+" parcel"+(a2==1?"":"s")+" for the argument '-2'.";
 			assertEquals( msg, a2, argSet.makeGet( "arg2" ).getRelevantParcels().length );
 		}
+		
+		public void verifyParcel( String argID, int index, String value ) {
+			
+			// Verify that the given parcel's value matches the given value.
+			
+			String [] parcels = argSet.makeGet( argID ).getRelevantParcels();
+			String msg = "Parcel[ " + index + " ] should contain '" + value + "'.";
+			assertEquals( msg, value, parcels[ index ] );
+		}
 	}
 	
 	protected class LADsArrays extends LADsEmpty {
@@ -768,6 +777,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		LADsParcels args = new LADsParcels( cmdl_args );
 		
 		args.verifyOutcome( 1, 0, false, 0 );
+		args.verifyParcel( "arg1", 0, "foo" );
 	}
 	
 	public void testLADsParcels_1x2() {
@@ -776,6 +786,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		LADsParcels args = new LADsParcels( cmdl_args );
 		
 		args.verifyOutcome( 1, 0, true, args.kErrorCodeUnknownArgument );
+		args.verifyParcel( "arg1", 0, "foo" );
 	}
 	
 	public void testLADsParcels_2x1() {
@@ -784,6 +795,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		LADsParcels args = new LADsParcels( cmdl_args );
 		
 		args.verifyOutcome( 0, 1, true, args.kErrorCodeMissingArgument );
+		args.verifyParcel( "arg2", 0, "foo" );
 	}
 	
 	public void testLADsParcels_2x2() {
@@ -792,6 +804,8 @@ public class TestLinearArgDesequencer extends TestCase {
 		LADsParcels args = new LADsParcels( cmdl_args );
 		
 		args.verifyOutcome( 0, 2, false, 0 );
+		args.verifyParcel( "arg2", 0, "foo" );
+		args.verifyParcel( "arg2", 1, "bar" );
 	}
 	
 	public void testLADsParcels_2x3() {
@@ -800,6 +814,8 @@ public class TestLinearArgDesequencer extends TestCase {
 		LADsParcels args = new LADsParcels( cmdl_args );
 		
 		args.verifyOutcome( 0, 2, true, args.kErrorCodeUnknownArgument );
+		args.verifyParcel( "arg2", 0, "foo" );
+		args.verifyParcel( "arg2", 1, "bar" );
 	}
 	
 	public void testLADsParcels_1x1_2x2() {
@@ -808,6 +824,9 @@ public class TestLinearArgDesequencer extends TestCase {
 		LADsParcels args = new LADsParcels( cmdl_args );
 		
 		args.verifyOutcome( 1, 2, false, 0 );
+		args.verifyParcel( "arg1", 0, "foo" );
+		args.verifyParcel( "arg2", 0, "foo" );
+		args.verifyParcel( "arg2", 1, "bar" );
 	}
 	
 	public void testLADsParcels_1x1_2x3() {
@@ -816,6 +835,9 @@ public class TestLinearArgDesequencer extends TestCase {
 		LADsParcels args = new LADsParcels( cmdl_args );
 		
 		args.verifyOutcome( 1, 2, true, args.kErrorCodeUnknownArgument );
+		args.verifyParcel( "arg1", 0, "foo" );
+		args.verifyParcel( "arg2", 0, "foo" );
+		args.verifyParcel( "arg2", 1, "bar" );
 	}
 	
 	public void testLADsParcels_12x2() {
@@ -824,6 +846,8 @@ public class TestLinearArgDesequencer extends TestCase {
 		LADsParcels args = new LADsParcels( cmdl_args );
 		
 		args.verifyOutcome( 1, 1, true, args.kErrorCodeMissingArgument );
+		args.verifyParcel( "arg1", 0, "foo" );
+		args.verifyParcel( "arg2", 0, "bar" );
 	}
 	
 	public void testLADsParcels_12x3() {
@@ -832,6 +856,9 @@ public class TestLinearArgDesequencer extends TestCase {
 		LADsParcels args = new LADsParcels( cmdl_args );
 		
 		args.verifyOutcome( 1, 2, false, 0 );
+		args.verifyParcel( "arg1", 0, "foo" );
+		args.verifyParcel( "arg2", 0, "bar" );
+		args.verifyParcel( "arg2", 1, "fish" );
 	}
 	
 	public void testLADsParcels_12x4() {
@@ -840,6 +867,9 @@ public class TestLinearArgDesequencer extends TestCase {
 		LADsParcels args = new LADsParcels( cmdl_args );
 		
 		args.verifyOutcome( 1, 2, true, args.kErrorCodeUnknownArgument );
+		args.verifyParcel( "arg1", 0, "foo" );
+		args.verifyParcel( "arg2", 0, "bar" );
+		args.verifyParcel( "arg2", 1, "fish" );
 	}
 	
 	public void testLADsParcels_21x3() {
@@ -848,6 +878,9 @@ public class TestLinearArgDesequencer extends TestCase {
 		LADsParcels args = new LADsParcels( cmdl_args );
 		
 		args.verifyOutcome( 1, 2, false, 0 );
+		args.verifyParcel( "arg2", 0, "foo" );
+		args.verifyParcel( "arg2", 1, "bar" );
+		args.verifyParcel( "arg1", 0, "fish" );
 	}
 	
 	public void testLADsParcels_2x1_1x2() {
@@ -856,6 +889,9 @@ public class TestLinearArgDesequencer extends TestCase {
 		LADsParcels args = new LADsParcels( cmdl_args );
 		
 		args.verifyOutcome( 1, 2, false, 0 );
+		args.verifyParcel( "arg2", 0, "foo" );
+		args.verifyParcel( "arg2", 1, "bar" );
+		args.verifyParcel( "arg1", 0, "fish" );
 	}
 	
 	public void testLADsParcels_11x2() {
@@ -867,6 +903,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		// extra values override existing values.
 		
 		args.verifyOutcome( 1, 0, false, 0 );
+		args.verifyParcel( "arg1", 0, "bar" );
 	}
 	
 	public void testLADsParcels_22x4() {
@@ -878,5 +915,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		// extra values override existing values.
 		
 		args.verifyOutcome( 0, 2, false, 0 );
+		args.verifyParcel( "arg2", 0, "fish" );
+		args.verifyParcel( "arg2", 1, "cat" );
 	}
 }
