@@ -1248,4 +1248,41 @@ public class TestLinearArgDesequencer extends TestCase {
 		args.verifyParcel( "ary2", 2, "fish" );
 		args.verifyParcel( "ary2", 3, "cat" );
 	}
+	
+	public void testLADsUnbounded_Mixed1() {
+		
+		String [] cmdl_args = { "-f2", "foo", "bar", "fish", "cat", "dog" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		
+		args.verifyOutcome( 2, 0, 0, 2, 0, false, 0 );
+		args.verifyParcel( "fish", 0, "foo" );
+		args.verifyParcel( "fish", 1, "bar" );
+		args.verifyParcel( "arg2", 0, "cat" );
+		args.verifyParcel( "arg2", 1, "dog" );
+	}
+	
+	public void testLADsUnbounded_Mixed2() {
+		
+		String [] cmdl_args = { "-2f", "foo", "bar", "fish", "cat", "dog" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		
+		args.verifyOutcome( 2, 0, 0, 2, 0, false, 0 );
+		args.verifyParcel( "arg2", 0, "bar" );
+		args.verifyParcel( "arg2", 1, "dog" );
+		args.verifyParcel( "fish", 0, "fish" );
+		args.verifyParcel( "fish", 1, "cat" );
+	}
+	
+	public void testLADsUnbounded_Mixed3() {
+		
+		String [] cmdl_args = { "-wf", "foo", "bar", "fish", "cat", "dog" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		
+		args.verifyOutcome( 2, 0, 0, 0, 3, false, 0 );
+		args.verifyParcel( "ary2", 0, "foo" );
+		args.verifyParcel( "ary2", 1, "bar" );
+		args.verifyParcel( "fish", 0, "fish" );
+		args.verifyParcel( "fish", 1, "cat" );
+		args.verifyParcel( "ary2", 2, "dog" );
+	}
 }
