@@ -220,7 +220,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		}
 	}
 	
-	protected class LADsArrays extends LADsEmpty {
+	protected class LADsArrays extends LADsParcels {
 		
 		// This is a subclass of LinearArgDesequencer that
 		// has arguments applicable for testing arrays.
@@ -251,7 +251,6 @@ public class TestLinearArgDesequencer extends TestCase {
 			
 			argSet.addArgumentInfo( "arg1", '1', 1, true, "Array argument with 1 parcel" );
 			argSet.addArgumentInfo( "arg2", '2', 2, true, "Array argument with 2 parcels" );
-			argSet.addArgumentInfo( "arg3", '3', 3, true, "Array argument with 3 parcels" );
 		}
 	}
 	
@@ -917,5 +916,121 @@ public class TestLinearArgDesequencer extends TestCase {
 		args.verifyOutcome( 0, 2, false, 0 );
 		args.verifyParcel( "arg2", 0, "fish" );
 		args.verifyParcel( "arg2", 1, "cat" );
+	}
+	
+	// Test cases on LADsArrays (a subclass of LinearArgDesequencer)
+	
+	public void testLADsArrays_1x0() {
+		
+		String [] cmdl_args = { "-1" };
+		LADsArrays args = new LADsArrays( cmdl_args );
+		
+		args.verifyOutcome( 0, 0, true, args.kErrorCodeMissingArgument );
+	}
+	
+	public void testLADsArrays_1x1() {
+		
+		String [] cmdl_args = { "-1", "foo" };
+		LADsArrays args = new LADsArrays( cmdl_args );
+		
+		args.verifyOutcome( 1, 0, false, 0 );
+		args.verifyParcel( "arg1", 0, "foo" );
+	}
+	
+	public void testLADsArrays_1x2() {
+		
+		String [] cmdl_args = { "-1", "foo", "bar" };
+		LADsArrays args = new LADsArrays( cmdl_args );
+		
+		args.verifyOutcome( 1, 0, true, args.kErrorCodeUnknownArgument );
+		args.verifyParcel( "arg1", 0, "foo" );
+	}
+	
+	public void testLADsArrays_1x1_2x2() {
+		
+		String [] cmdl_args = { "-1", "foo", "-2", "foo", "bar" };
+		LADsArrays args = new LADsArrays( cmdl_args );
+		
+		args.verifyOutcome( 1, 2, false, 0 );
+		args.verifyParcel( "arg1", 0, "foo" );
+		args.verifyParcel( "arg2", 0, "foo" );
+		args.verifyParcel( "arg2", 1, "bar" );
+	}
+	
+	public void testLADsArrays_1x1_2x3() {
+		
+		String [] cmdl_args = { "-1", "foo", "-2", "foo", "bar", "fish" };
+		LADsArrays args = new LADsArrays( cmdl_args );
+		
+		args.verifyOutcome( 1, 2, true, args.kErrorCodeUnknownArgument );
+		args.verifyParcel( "arg1", 0, "foo" );
+		args.verifyParcel( "arg2", 0, "foo" );
+		args.verifyParcel( "arg2", 1, "bar" );
+	}
+	
+	public void testLADsArrays_12x2() {
+		
+		String [] cmdl_args = { "-12", "foo", "bar" };
+		LADsArrays args = new LADsArrays( cmdl_args );
+		
+		args.verifyOutcome( 1, 1, true, args.kErrorCodeMissingArgument );
+		args.verifyParcel( "arg1", 0, "foo" );
+		args.verifyParcel( "arg2", 0, "bar" );
+	}
+	
+	public void testLADsArrays_12x3() {
+		
+		String [] cmdl_args = { "-12", "foo", "bar", "fish" };
+		LADsArrays args = new LADsArrays( cmdl_args );
+		
+		args.verifyOutcome( 1, 2, false, 0 );
+		args.verifyParcel( "arg1", 0, "foo" );
+		args.verifyParcel( "arg2", 0, "bar" );
+		args.verifyParcel( "arg2", 1, "fish" );
+	}
+	
+	public void testLADsArrays_12x4() {
+		
+		String [] cmdl_args = { "-12", "foo", "bar", "fish", "cat" };
+		LADsArrays args = new LADsArrays( cmdl_args );
+		
+		args.verifyOutcome( 1, 2, true, args.kErrorCodeUnknownArgument );
+		args.verifyParcel( "arg1", 0, "foo" );
+		args.verifyParcel( "arg2", 0, "bar" );
+		args.verifyParcel( "arg2", 1, "fish" );
+	}
+	
+	public void testLADsArrays_11x2() {
+		
+		String [] cmdl_args = { "-11", "foo", "bar" };
+		LADsArrays args = new LADsArrays( cmdl_args );
+		
+		args.verifyOutcome( 2, 0, false, 0 );
+		args.verifyParcel( "arg1", 0, "foo" );
+		args.verifyParcel( "arg1", 1, "bar" );
+	}
+	
+	public void testLADsArrays_22x4() {
+		
+		String [] cmdl_args = { "-22", "foo", "bar", "fish", "cat" };
+		LADsArrays args = new LADsArrays( cmdl_args );
+		
+		args.verifyOutcome( 0, 4, false, 0 );
+		args.verifyParcel( "arg2", 0, "foo" );
+		args.verifyParcel( "arg2", 1, "bar" );
+		args.verifyParcel( "arg2", 2, "fish" );
+		args.verifyParcel( "arg2", 3, "cat" );
+	}
+	
+	public void testLADsArrays_121x4() {
+		
+		String [] cmdl_args = { "-121", "foo", "bar", "fish", "cat" };
+		LADsArrays args = new LADsArrays( cmdl_args );
+		
+		args.verifyOutcome( 2, 2, false, 0 );
+		args.verifyParcel( "arg1", 0, "foo" );
+		args.verifyParcel( "arg2", 0, "bar" );
+		args.verifyParcel( "arg2", 1, "fish" );
+		args.verifyParcel( "arg1", 1, "cat" );
 	}
 }
