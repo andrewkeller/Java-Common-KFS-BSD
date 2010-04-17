@@ -321,44 +321,6 @@ public class TestLinearArgDesequencer extends TestCase {
 		}
 	}
 	
-	protected class LADsDuplicates extends LADsEmpty {
-		
-		// This is a subclass of LinearArgDesequencer that
-		// has arguments applicable for testing what happens
-		// when duplicate argument definitions are defined.
-		
-		public LADsDuplicates() {
-			
-			// Java requires that this be here.
-			
-			// Forward the request to super.
-			
-			super();
-		}
-		
-		public LADsDuplicates( String [] args ) {
-			
-			// Java requires that this be here.
-			
-			// Forward the request to super.
-			
-			super( args );
-		}
-		
-		protected void populateArgSet() {
-			
-			// For simplicity, do not add the default argument set.
-			
-			// Add some more of our own arguments:
-			
-			argSet.addArgumentInfo( "debug", 'd', 0, false, "Debug Mode" );
-			argSet.addArgumentInfo( "debug", 'd', 1, true, "Disaster Mode" );
-			
-			argSet.addArgumentInfo( "bd", 'b', 1, false, "Bird Dog Mode" );
-			argSet.addArgumentInfo( "bd", 's', "yummy", 3, true, true, "Mongolian Mode" );
-		}
-	}
-	
 	// Common testing code
 	
 	public void verifyBasics( LinearArgDesequencer lad, boolean help, int verbosity, boolean error, int errorCode ) {
