@@ -1115,6 +1115,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		String [] cmdl_args = { "-1", "foo" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
 		args.verifyOutcome( 1, 0, 0, 0, false, 0 );
+		args.verifyParcel( "arg1", 0, "foo" );
 	}
 	public void testLADsUnbounded_qx1() {
 		
@@ -1123,6 +1124,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		String [] cmdl_args = { "-q", "foo" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
 		args.verifyOutcome( 0, 1, 0, 0, false, 0 );
+		args.verifyParcel( "ary1", 0, "foo" );
 	}
 	public void testLADsUnbounded_1x2() {
 		
@@ -1131,6 +1133,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		String [] cmdl_args = { "-1", "foo", "bar" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
 		args.verifyOutcome( 1, 0, 0, 0, false, 0 );
+		args.verifyParcel( "arg1", 0, "bar" );
 	}
 	public void testLADsUnbounded_qx2() {
 		
@@ -1139,6 +1142,8 @@ public class TestLinearArgDesequencer extends TestCase {
 		String [] cmdl_args = { "-q", "foo", "bar" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
 		args.verifyOutcome( 0, 2, 0, 0, false, 0 );
+		args.verifyParcel( "ary1", 0, "foo" );
+		args.verifyParcel( "ary1", 1, "bar" );
 	}
 	
 	public void testLADsUnbounded_2x0() {
@@ -1164,6 +1169,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		String [] cmdl_args = { "-2", "foo" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
 		args.verifyOutcome( 0, 0, 1, 0, true, args.kErrorCodeMissingArgument );
+		args.verifyParcel( "arg2", 0, "foo" );
 	}
 	public void testLADsUnbounded_wx1() {
 		
@@ -1172,6 +1178,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		String [] cmdl_args = { "-w", "foo" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
 		args.verifyOutcome( 0, 0, 0, 1, true, args.kErrorCodeMissingArgument );
+		args.verifyParcel( "ary2", 0, "foo" );
 	}
 	public void testLADsUnbounded_2x2() {
 		
@@ -1180,6 +1187,8 @@ public class TestLinearArgDesequencer extends TestCase {
 		String [] cmdl_args = { "-2", "foo", "bar" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
 		args.verifyOutcome( 0, 0, 2, 0, false, 0 );
+		args.verifyParcel( "arg2", 0, "foo" );
+		args.verifyParcel( "arg2", 1, "bar" );
 	}
 	public void testLADsUnbounded_wx2() {
 		
@@ -1188,6 +1197,8 @@ public class TestLinearArgDesequencer extends TestCase {
 		String [] cmdl_args = { "-w", "foo", "bar" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
 		args.verifyOutcome( 0, 0, 0, 2, false, 0 );
+		args.verifyParcel( "ary2", 0, "foo" );
+		args.verifyParcel( "ary2", 1, "bar" );
 	}
 	public void testLADsUnbounded_2x3() {
 		
@@ -1196,6 +1207,8 @@ public class TestLinearArgDesequencer extends TestCase {
 		String [] cmdl_args = { "-2", "foo", "bar", "fish" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
 		args.verifyOutcome( 0, 0, 2, 0, false, 0 );
+		args.verifyParcel( "arg2", 0, "bar" );
+		args.verifyParcel( "arg2", 1, "fish" );
 	}
 	public void testLADsUnbounded_wx3() {
 		
@@ -1204,6 +1217,9 @@ public class TestLinearArgDesequencer extends TestCase {
 		String [] cmdl_args = { "-w", "foo", "bar", "fish" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
 		args.verifyOutcome( 0, 0, 0, 3, false, 0 );
+		args.verifyParcel( "ary2", 0, "foo" );
+		args.verifyParcel( "ary2", 1, "bar" );
+		args.verifyParcel( "ary2", 2, "fish" );
 	}
 	public void testLADsUnbounded_2x4() {
 		
@@ -1212,6 +1228,8 @@ public class TestLinearArgDesequencer extends TestCase {
 		String [] cmdl_args = { "-2", "foo", "bar", "fish", "cat" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
 		args.verifyOutcome( 0, 0, 2, 0, false, 0 );
+		args.verifyParcel( "arg2", 0, "fish" );
+		args.verifyParcel( "arg2", 1, "cat" );
 	}
 	public void testLADsUnbounded_wx4() {
 		
@@ -1220,5 +1238,9 @@ public class TestLinearArgDesequencer extends TestCase {
 		String [] cmdl_args = { "-w", "foo", "bar", "fish", "cat" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
 		args.verifyOutcome( 0, 0, 0, 4, false, 0 );
+		args.verifyParcel( "ary2", 0, "foo" );
+		args.verifyParcel( "ary2", 1, "bar" );
+		args.verifyParcel( "ary2", 2, "fish" );
+		args.verifyParcel( "ary2", 3, "cat" );
 	}
 }
