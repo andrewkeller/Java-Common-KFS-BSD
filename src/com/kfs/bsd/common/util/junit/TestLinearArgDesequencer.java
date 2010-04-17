@@ -254,7 +254,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		}
 	}
 	
-	protected class LADsUnbounded extends LADsEmpty {
+	protected class LADsUnbounded extends LADsParcels {
 		
 		// This is a subclass of LinearArgDesequencer that has
 		// arguments applicable for testing unbounded arguments.
@@ -286,12 +286,33 @@ public class TestLinearArgDesequencer extends TestCase {
 			argSet.addArgumentInfo( "arg0", '0', "argZero", 0, false, true, "Argument with 0 parcels (unbounded)" );
 			argSet.addArgumentInfo( "arg1", '1', "argOne", 1, false, true, "Argument with 1 parcel (unbounded)" );
 			argSet.addArgumentInfo( "arg2", '2', "argTwo", 2, false, true, "Argument with 2 parcels (unbounded)" );
-			argSet.addArgumentInfo( "arg3", '3', "argThree", 3, false, true, "Argument with 3 parcels (unbounded)" );
 			
 			argSet.addArgumentInfo( "ary0", 'p', "arrayZero", 0, true, true, "Array argument with 0 parcel (unbounded)" );
 			argSet.addArgumentInfo( "ary1", 'q', "arrayOne", 1, true, true, "Array argument with 1 parcel (unbounded)" );
 			argSet.addArgumentInfo( "ary2", 'w', "arrayTwo", 2, true, true, "Array argument with 2 parcels (unbounded)" );
-			argSet.addArgumentInfo( "ary3", 'e', "arrayThree", 3, true, true, "Array argument with 3 parcels (unbounded)" );
+		}
+		
+		public void verifyOutcome( int arg1, int ary1, int arg2, int ary2, boolean error, int errorCode ) {
+			
+			// Verify the generic aspects (error and error code):
+			
+			verifyOutcome( error, errorCode );
+			
+			// Verify that the given arguments were found correctly.
+			
+			String msg;
+			
+			msg = "LinearArgDesequencer did not find exactly "+arg1+" parcel"+(arg1==1?"":"s")+" for the argument '-1'.";
+			assertEquals( msg, arg1, argSet.makeGet( "arg1" ).getRelevantParcels().length );
+			
+			msg = "LinearArgDesequencer did not find exactly "+ary1+" parcel"+(ary1==1?"":"s")+" for the argument '-q'.";
+			assertEquals( msg, ary1, argSet.makeGet( "ary1" ).getRelevantParcels().length );
+			
+			msg = "LinearArgDesequencer did not find exactly "+arg2+" parcel"+(arg2==1?"":"s")+" for the argument '-2'.";
+			assertEquals( msg, arg2, argSet.makeGet( "arg2" ).getRelevantParcels().length );
+			
+			msg = "LinearArgDesequencer did not find exactly "+ary2+" parcel"+(ary2==1?"":"s")+" for the argument '-w'.";
+			assertEquals( msg, ary2, argSet.makeGet( "ary2" ).getRelevantParcels().length );
 		}
 	}
 	
@@ -1032,5 +1053,172 @@ public class TestLinearArgDesequencer extends TestCase {
 		args.verifyParcel( "arg2", 0, "bar" );
 		args.verifyParcel( "arg2", 1, "fish" );
 		args.verifyParcel( "arg1", 1, "cat" );
+	}
+	
+	// Test cases on LADsUnbounded (a subclass of LinearArgDesequencer)
+	
+	public void testLADsUnbounded_0x0() {
+		
+		// Zero parcels (zero expected, no error):
+		
+		String [] cmdl_args = { "-0" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, false, 0 );
+	}
+	public void testLADsUnbounded_px0() {
+		
+		// Same thing, except treated as an array:
+		
+		String [] cmdl_args = { "-p" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, false, 0 );
+	}
+	public void testLADsUnbounded_0x1() {
+		
+		// One parcel (zero expected, should cause an error)
+		//   Arguments with parcelCount = 0 cannot receive
+		//   any parcels, even when unbounded = true.
+		
+		String [] cmdl_args = { "-0", "foo" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, true, args.kErrorCodeUnknownArgument );
+	}
+	public void testLADsUnbounded_px1() {
+		
+		// Same thing, except treated as an array:
+		
+		String [] cmdl_args = { "-p", "foo" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, true, args.kErrorCodeUnknownArgument );
+	}
+	
+	public void testLADsUnbounded_1x0() {
+		
+		// Zero parcels (one expected, should cause an error):
+		
+		String [] cmdl_args = { "-1" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, 0, 0, true, args.kErrorCodeMissingArgument );
+	}
+	public void testLADsUnbounded_qx0() {
+		
+		// Same thing, except treated as an array:
+		
+		String [] cmdl_args = { "-q" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, 0, 0, true, args.kErrorCodeMissingArgument );
+	}
+	public void testLADsUnbounded_1x1() {
+		
+		// One parcel (one expected, no error)
+		
+		String [] cmdl_args = { "-1", "foo" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 1, 0, 0, 0, false, 0 );
+	}
+	public void testLADsUnbounded_qx1() {
+		
+		// Same thing, except treated as an array:
+		
+		String [] cmdl_args = { "-q", "foo" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 1, 0, 0, false, 0 );
+	}
+	public void testLADsUnbounded_1x2() {
+		
+		// Two parcels (one expected, no error)
+		
+		String [] cmdl_args = { "-1", "foo", "bar" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 1, 0, 0, 0, false, 0 );
+	}
+	public void testLADsUnbounded_qx2() {
+		
+		// Same thing, except treated as an array:
+		
+		String [] cmdl_args = { "-q", "foo", "bar" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 2, 0, 0, false, 0 );
+	}
+	
+	public void testLADsUnbounded_2x0() {
+		
+		// Zero parcels (two expected, should cause an error):
+		
+		String [] cmdl_args = { "-2" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, 0, 0, true, args.kErrorCodeMissingArgument );
+	}
+	public void testLADsUnbounded_wx0() {
+		
+		// Same thing, except treated as an array:
+		
+		String [] cmdl_args = { "-w" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, 0, 0, true, args.kErrorCodeMissingArgument );
+	}
+	public void testLADsUnbounded_2x1() {
+		
+		// One parcel (two expected, should cause an error):
+		
+		String [] cmdl_args = { "-2", "foo" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, 1, 0, true, args.kErrorCodeMissingArgument );
+	}
+	public void testLADsUnbounded_wx1() {
+		
+		// Same thing, except treated as an array:
+		
+		String [] cmdl_args = { "-w", "foo" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, 0, 1, true, args.kErrorCodeMissingArgument );
+	}
+	public void testLADsUnbounded_2x2() {
+		
+		// Two parcels (two expected, no error)
+		
+		String [] cmdl_args = { "-2", "foo", "bar" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, 2, 0, false, 0 );
+	}
+	public void testLADsUnbounded_wx2() {
+		
+		// Same thing, except treated as an array:
+		
+		String [] cmdl_args = { "-w", "foo", "bar" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, 0, 2, false, 0 );
+	}
+	public void testLADsUnbounded_2x3() {
+		
+		// Three parcels (two expected, no error)
+		
+		String [] cmdl_args = { "-2", "foo", "bar", "fish" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, 2, 0, false, 0 );
+	}
+	public void testLADsUnbounded_wx3() {
+		
+		// Same thing, except treated as an array:
+		
+		String [] cmdl_args = { "-w", "foo", "bar", "fish" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, 0, 3, false, 0 );
+	}
+	public void testLADsUnbounded_2x4() {
+		
+		// Four parcels (two expected, no error)
+		
+		String [] cmdl_args = { "-2", "foo", "bar", "fish", "cat" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, 2, 0, false, 0 );
+	}
+	public void testLADsUnbounded_wx4() {
+		
+		// Same thing, except treated as an array:
+		
+		String [] cmdl_args = { "-w", "foo", "bar", "fish", "cat" };
+		LADsUnbounded args = new LADsUnbounded( cmdl_args );
+		args.verifyOutcome( 0, 0, 0, 4, false, 0 );
 	}
 }
