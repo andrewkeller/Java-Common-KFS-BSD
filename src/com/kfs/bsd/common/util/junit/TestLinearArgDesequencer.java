@@ -290,9 +290,11 @@ public class TestLinearArgDesequencer extends TestCase {
 			argSet.addArgumentInfo( "ary0", 'p', "arrayZero", 0, true, true, "Array argument with 0 parcel (unbounded)" );
 			argSet.addArgumentInfo( "ary1", 'q', "arrayOne", 1, true, true, "Array argument with 1 parcel (unbounded)" );
 			argSet.addArgumentInfo( "ary2", 'w', "arrayTwo", 2, true, true, "Array argument with 2 parcels (unbounded)" );
+			
+			argSet.addArgumentInfo( "fish", 'f', "fish", 2, false, false, "Argument with 2 parcels." );
 		}
 		
-		public void verifyOutcome( int arg1, int ary1, int arg2, int ary2, boolean error, int errorCode ) {
+		public void verifyOutcome( int fish, int arg1, int ary1, int arg2, int ary2, boolean error, int errorCode ) {
 			
 			// Verify the generic aspects (error and error code):
 			
@@ -313,6 +315,9 @@ public class TestLinearArgDesequencer extends TestCase {
 			
 			msg = "LinearArgDesequencer did not find exactly "+ary2+" parcel"+(ary2==1?"":"s")+" for the argument '-w'.";
 			assertEquals( msg, ary2, argSet.makeGet( "ary2" ).getRelevantParcels().length );
+			
+			msg = "LinearArgDesequencer did not find exactly "+fish+" parcel"+(fish==1?"":"s")+" for the argument '-f'.";
+			assertEquals( msg, fish, argSet.makeGet( "fish" ).getRelevantParcels().length );
 		}
 	}
 	
@@ -1063,7 +1068,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-0" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, false, 0 );
+		args.verifyOutcome( 0, 0, 0, 0, 0, false, 0 );
 	}
 	public void testLADsUnbounded_px0() {
 		
@@ -1071,7 +1076,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-p" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, false, 0 );
+		args.verifyOutcome( 0, 0, 0, 0, 0, false, 0 );
 	}
 	public void testLADsUnbounded_0x1() {
 		
@@ -1081,7 +1086,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-0", "foo" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, true, args.kErrorCodeUnknownArgument );
+		args.verifyOutcome( 0, 0, 0, 0, 0, true, args.kErrorCodeUnknownArgument );
 	}
 	public void testLADsUnbounded_px1() {
 		
@@ -1089,7 +1094,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-p", "foo" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, true, args.kErrorCodeUnknownArgument );
+		args.verifyOutcome( 0, 0, 0, 0, 0, true, args.kErrorCodeUnknownArgument );
 	}
 	
 	public void testLADsUnbounded_1x0() {
@@ -1098,7 +1103,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-1" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, 0, 0, true, args.kErrorCodeMissingArgument );
+		args.verifyOutcome( 0, 0, 0, 0, 0, true, args.kErrorCodeMissingArgument );
 	}
 	public void testLADsUnbounded_qx0() {
 		
@@ -1106,7 +1111,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-q" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, 0, 0, true, args.kErrorCodeMissingArgument );
+		args.verifyOutcome( 0, 0, 0, 0, 0, true, args.kErrorCodeMissingArgument );
 	}
 	public void testLADsUnbounded_1x1() {
 		
@@ -1114,7 +1119,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-1", "foo" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 1, 0, 0, 0, false, 0 );
+		args.verifyOutcome( 0, 1, 0, 0, 0, false, 0 );
 		args.verifyParcel( "arg1", 0, "foo" );
 	}
 	public void testLADsUnbounded_qx1() {
@@ -1123,7 +1128,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-q", "foo" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 1, 0, 0, false, 0 );
+		args.verifyOutcome( 0, 0, 1, 0, 0, false, 0 );
 		args.verifyParcel( "ary1", 0, "foo" );
 	}
 	public void testLADsUnbounded_1x2() {
@@ -1132,7 +1137,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-1", "foo", "bar" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 1, 0, 0, 0, false, 0 );
+		args.verifyOutcome( 0, 1, 0, 0, 0, false, 0 );
 		args.verifyParcel( "arg1", 0, "bar" );
 	}
 	public void testLADsUnbounded_qx2() {
@@ -1141,7 +1146,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-q", "foo", "bar" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 2, 0, 0, false, 0 );
+		args.verifyOutcome( 0, 0, 2, 0, 0, false, 0 );
 		args.verifyParcel( "ary1", 0, "foo" );
 		args.verifyParcel( "ary1", 1, "bar" );
 	}
@@ -1152,7 +1157,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-2" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, 0, 0, true, args.kErrorCodeMissingArgument );
+		args.verifyOutcome( 0, 0, 0, 0, 0, true, args.kErrorCodeMissingArgument );
 	}
 	public void testLADsUnbounded_wx0() {
 		
@@ -1160,7 +1165,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-w" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, 0, 0, true, args.kErrorCodeMissingArgument );
+		args.verifyOutcome( 0, 0, 0, 0, 0, true, args.kErrorCodeMissingArgument );
 	}
 	public void testLADsUnbounded_2x1() {
 		
@@ -1168,7 +1173,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-2", "foo" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, 1, 0, true, args.kErrorCodeMissingArgument );
+		args.verifyOutcome( 0, 0, 0, 1, 0, true, args.kErrorCodeMissingArgument );
 		args.verifyParcel( "arg2", 0, "foo" );
 	}
 	public void testLADsUnbounded_wx1() {
@@ -1177,7 +1182,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-w", "foo" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, 0, 1, true, args.kErrorCodeMissingArgument );
+		args.verifyOutcome( 0, 0, 0, 0, 1, true, args.kErrorCodeMissingArgument );
 		args.verifyParcel( "ary2", 0, "foo" );
 	}
 	public void testLADsUnbounded_2x2() {
@@ -1186,7 +1191,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-2", "foo", "bar" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, 2, 0, false, 0 );
+		args.verifyOutcome( 0, 0, 0, 2, 0, false, 0 );
 		args.verifyParcel( "arg2", 0, "foo" );
 		args.verifyParcel( "arg2", 1, "bar" );
 	}
@@ -1196,7 +1201,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-w", "foo", "bar" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, 0, 2, false, 0 );
+		args.verifyOutcome( 0, 0, 0, 0, 2, false, 0 );
 		args.verifyParcel( "ary2", 0, "foo" );
 		args.verifyParcel( "ary2", 1, "bar" );
 	}
@@ -1206,7 +1211,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-2", "foo", "bar", "fish" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, 2, 0, false, 0 );
+		args.verifyOutcome( 0, 0, 0, 2, 0, false, 0 );
 		args.verifyParcel( "arg2", 0, "bar" );
 		args.verifyParcel( "arg2", 1, "fish" );
 	}
@@ -1216,7 +1221,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-w", "foo", "bar", "fish" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, 0, 3, false, 0 );
+		args.verifyOutcome( 0, 0, 0, 0, 3, false, 0 );
 		args.verifyParcel( "ary2", 0, "foo" );
 		args.verifyParcel( "ary2", 1, "bar" );
 		args.verifyParcel( "ary2", 2, "fish" );
@@ -1227,7 +1232,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-2", "foo", "bar", "fish", "cat" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, 2, 0, false, 0 );
+		args.verifyOutcome( 0, 0, 0, 2, 0, false, 0 );
 		args.verifyParcel( "arg2", 0, "fish" );
 		args.verifyParcel( "arg2", 1, "cat" );
 	}
@@ -1237,7 +1242,7 @@ public class TestLinearArgDesequencer extends TestCase {
 		
 		String [] cmdl_args = { "-w", "foo", "bar", "fish", "cat" };
 		LADsUnbounded args = new LADsUnbounded( cmdl_args );
-		args.verifyOutcome( 0, 0, 0, 4, false, 0 );
+		args.verifyOutcome( 0, 0, 0, 0, 4, false, 0 );
 		args.verifyParcel( "ary2", 0, "foo" );
 		args.verifyParcel( "ary2", 1, "bar" );
 		args.verifyParcel( "ary2", 2, "fish" );
