@@ -27,7 +27,7 @@ And then run just like normal, because the compiled files from this repository a
 
   java -classpath bin org.companyname.foo.MyGreatClass
 
-This repository uses the above technique to include the JUnit repository, except that because the JUnit repository can be build nicely as a JAR file, the jar file is instead included, using classpath extension rather than sourcepath extension.
+This repository uses the above technique to include the JUnit repository, except that because the JUnit repository can be build nicely as a JAR file, the library is included using classpath extension rather than sourcepath extension.
 
 
 INITIALIZATION
