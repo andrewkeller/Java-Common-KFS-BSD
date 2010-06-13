@@ -1,5 +1,12 @@
 This is the Java Common KFS BSD library.
 
+LIBRARY CONTENTS
+
+This library currently provides the following items:
+
+  - LinearArgDesequencer - A class that assists in parsing command-line arguments.
+
+
 REPOSITORY USAGE
 
 It is intended that this repository be used as a submodule, although it is completely self-sustaining with regard to internal test cases.
