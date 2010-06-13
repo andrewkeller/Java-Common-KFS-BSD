@@ -38,4 +38,4 @@ On the other hand, if you intend to develop for this repository, then you will w
 
 The following command should successfully add this repository as a submodule in your repository:
 
-  git submodule add git://208.53.115.13/Users/andrew/scm/bsd/lib/java/Java_Common_KFS_BSD.git lib/jckb
+  git submodule add git://github.com/andrewkeller/Java-Common-KFS-BSD.git lib/jckb
